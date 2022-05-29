@@ -45,15 +45,15 @@ exports.recordNotFound = (data, res) => {
 exports.loginSuccess = (result, res) => {
   return res.status(responseStatusCode.success).json({
     STATUS: "SUCCESS",
-    MESSAGE: "Welcome back",
+    MESSAGE: "Welcome back to Look me Up",
+    DATA: result,
   });
 };
 
 exports.loginFailed = (error, res) => {
-  res.MESSAGE = error.message.split(": ")[1];
   return res.status(responseStatusCode.validationError).json({
     STATUS: "FAILURE",
-    MESSAGE: res.MESSAGE,
+    MESSAGE: error.message
   });
 };
 

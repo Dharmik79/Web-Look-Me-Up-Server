@@ -1,26 +1,10 @@
-
+const user = require("../model/user");
 const createDocument = (model, data) =>
   new Promise((resolve, reject) => {
     model.create(data, (err, result) => {
       if (err) reject(err);
       else resolve(result);
     });
-  });
-
-const updateDocument = (model, id, data) =>
-  new Promise((resolve, reject) => {
-    model.updateOne(
-      { _id: id },
-      data,
-      {
-        runValidators: true,
-        context: "query",
-      },
-      (err, result) => {
-        if (err) reject(err);
-        else resolve(result);
-      }
-    );
   });
 
 const deleteDocument = (model, id) =>
@@ -82,16 +66,21 @@ const findOneAndDeleteDocument = (model, filter, options = {}) =>
     });
   });
 
-
+const findUser = async (email) => {
+  const findUser = await user.findOne({
+    email: email,
+  });
+  return findUser;
+};
 
 module.exports = {
   createDocument,
   getAllDocuments,
-  updateDocument,
   deleteDocument,
   getSingleDocumentById,
   countDocument,
   getDocumentByQuery,
   findOneAndUpdateDocument,
   findOneAndDeleteDocument,
+  findUser,
 };
