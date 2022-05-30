@@ -68,12 +68,6 @@ const schema = new Schema(
     },
   }
 );
-schema.pre("save", async function (next) {
-  if (this.password) {
-    this.password = await bcrypt.hash(this.password, 8);
-  }
-  next();
-});
 
 schema.method("toJSON", function () {
   const { __v, ...object } = this.toObject();
