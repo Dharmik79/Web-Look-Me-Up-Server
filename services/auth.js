@@ -30,7 +30,7 @@ module.exports = {
       if (user) {
         throw MESSAGE.EMAIL_ALREADY_EXISTS.message;
       }
-      body.fullName = body.firstName + " " + body.lastName;
+     
       let result = await service.createDocument(User, body);
       return result;
     } catch (error) {

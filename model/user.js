@@ -57,18 +57,15 @@ const schema = new Schema(
 // pre hooks methods for saving necessary data and pagination
 schema.pre("save", async function (next) {
   this.fullName = this.firstName + " " + this.lastName;
-  if (this.password) {
-    this.password = await bcrypt.hash(this.password, 8);
-  }
   next();
 });
 
 schema.methods.isPasswordMatch = async function (password) {
   const user = this;
-  return bcrypt.compare(password, user.password);
+  return password === user.password;
 };
 schema.method("toJSON", function () {
-  const { __v, ...object } = this.toObject();
+  const { __v, password, ...object } = this.toObject();
   return object;
 });
 schema.plugin(mongoosePaginate);
