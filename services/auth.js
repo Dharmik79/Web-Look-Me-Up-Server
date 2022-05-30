@@ -47,6 +47,8 @@ module.exports = {
         throw MESSAGE.EMAIL_ALREADY_EXISTS.message;
       }
       let result = await service.createDocument(User, body);
+      result=result.toJSON();
+      result.token = await generateToken(result._id, body.email, JWT.SECRET);
       return result;
     } catch (error) {
       console.error(error);
