@@ -17,9 +17,6 @@ exports.updateProfileResponse = (data, res) => {
   });
 };
 exports.failureResponse = (data, res) => {
-  let i = 0;
-
-  res.MESSAGE = data.message;
   return res.status(responseStatusCode.validationError).json({
     STATUS: "FAILURE",
     MESSAGE: data.message ? data.message : data,

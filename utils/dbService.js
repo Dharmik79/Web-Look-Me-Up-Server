@@ -50,7 +50,7 @@ const getDocumentByQuery = (model, where, select = []) =>
     });
   });
 
-const findOneAndUpdateDocument = (model, filter, data, options = {}) =>
+const findOneAndUpdateDocument = (model, filter, data, options = {new:true}) =>
   new Promise((resolve, reject) => {
     model.findOneAndUpdate(filter, data, options, (err, result) => {
       if (err) reject(err);
@@ -58,7 +58,7 @@ const findOneAndUpdateDocument = (model, filter, data, options = {}) =>
     });
   });
 
-const findOneAndDeleteDocument = (model, filter, options = {}) =>
+const findOneAndDeleteDocument = (model, filter, options = {new:true}) =>
   new Promise((resolve, reject) => {
     model.findOneAndDelete(filter, options, (err, data) => {
       if (err) reject(err);
