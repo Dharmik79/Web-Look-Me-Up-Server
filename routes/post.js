@@ -1,11 +1,12 @@
 const express = require("express");
 const routes = express.Router();
 const postController = require("../controller/postController");
+const { authentication } = require("../middleware/auth");
 
-routes.post("/add", postController.create);
-routes.post("/findAll", postController.findAll);
-routes.get("/:id", postController.get);
-routes.put("/update/:id", postController.update);
-routes.delete("/:id", postController.delete);
+routes.post("/add", authentication, postController.create);
+routes.post("/findAll", authentication, postController.findAll);
+routes.get("/:id", authentication, postController.get);
+routes.put("/update/:id", authentication, postController.update);
+routes.delete("/:id", authentication, postController.delete);
 
-module.exports = routes;
+module.exports = routes; 
