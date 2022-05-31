@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/assets", express.static("assets"));
 app.use(cors());
-app.options("*", cors());
+app.options({ origin: "http://localhost:3000"}, cors());
 
 // Authentication middleware
 app.use(passport.initialize());
