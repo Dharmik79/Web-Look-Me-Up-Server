@@ -8,6 +8,7 @@ module.exports = {
   create: async (req, res) => {
     try {
       let data = req.body;
+      data.userId=req.user._id
       let result = await service.createDocument(Post, data);
       if (result) {
         return util.successResponse(result, res);
