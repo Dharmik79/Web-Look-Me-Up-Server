@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.16.1",
+    "express-fileupload": "^1.4.0",
     "express-session": "^1.17.3",
     "http": "^0.0.1-security",
     "lodash": "^4.17.21",
