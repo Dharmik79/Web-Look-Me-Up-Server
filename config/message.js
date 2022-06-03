@@ -40,5 +40,8 @@ module.exports = {
     ERROR_FETCH_DATA: {
       message: "Error while fetching data from database",
     },
+    CREATE_COMMENT:{
+      message:"Comment has been generated successfully."
+    }
   },
 };

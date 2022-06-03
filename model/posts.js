@@ -56,7 +56,7 @@ const schema = new Schema(
         },
         // Time of the comment
         at: {
-          type: String,
+          type: Date,
         },
       },
     ],
