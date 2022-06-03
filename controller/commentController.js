@@ -22,6 +22,7 @@ module.exports = {
         data
       );
       if (result) {
+        res.message=MESSAGE.CREATE_COMMENT.message
         return util.successResponse(result, res);
       }
       return util.failureResponse(MESSAGE.BAD_REQUEST, res);
