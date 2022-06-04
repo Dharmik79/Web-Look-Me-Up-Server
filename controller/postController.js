@@ -8,7 +8,7 @@ module.exports = {
   create: async (req, res) => {
     try {
       let data = req.body;
-      data.userId=req.user._id
+      data.userId = req.user._id;
       let result = await service.createDocument(Post, data);
       if (result) {
         return util.successResponse(result, res);
@@ -27,7 +27,7 @@ module.exports = {
       }
       if (!options) {
         options = {};
-      } 
+      }
       let result = await service.getAllDocuments(Post, query, options);
       if (result) {
         return util.successResponse(result, res);
@@ -79,6 +79,41 @@ module.exports = {
         return util.successResponse(result, res);
       }
       return util.failureResponse(MESSAGE.BAD_REQUEST, res);
+    } catch (error) {
+      console.error(error);
+      return util.failureResponse(error, res);
+    }
+  },
+  likeDislike: async (req, res) => {
+    try {
+      let id = req.body.postId;
+      let userId = req.user._id;
+      let actionType = req.body.action;
+      if (actionType) {
+        await service.findOneAndUpdateDocument(
+          Post,
+          { _id: id },
+          {
+            $push: { likes: userId },
+            $pull: {
+              dislikes: userId,
+            },
+          }
+        );
+      } else {
+        await service.findOneAndUpdateDocument(
+          Post,
+          { _id: id },
+          {
+            $push: { dislikes: userId },
+            $pull: {
+              likes: userId,
+            },
+          }
+        );
+      }
+
+      return util.successResponse({}, res);
     } catch (error) {
       console.error(error);
       return util.failureResponse(error, res);
