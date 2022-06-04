@@ -8,5 +8,5 @@ routes.post("/findAll", authentication, postController.findAll);
 routes.get("/:id", authentication, postController.get);
 routes.put("/update/:id", authentication, postController.update);
 routes.delete("/:id", authentication, postController.delete);
-
-module.exports = routes; 
+routes.post("/", authentication, postController.likeDislike);
+module.exports = routes;
