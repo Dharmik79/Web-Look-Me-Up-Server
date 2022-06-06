@@ -22,6 +22,7 @@ module.exports = {
     try {
       email = req.body.email.toLowerCase();
       let result = await authService.registration(req.body);
+      res.message=MESSAGE.USER_REGISTERED.message
       return util.successResponse(result, res);
     } catch (error) {
       console.error("Error - register", error);
