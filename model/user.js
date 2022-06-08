@@ -45,6 +45,8 @@ const schema = new Schema(
     gender: {
       type: String,
     },
+    followers: [String],
+    following: [String],
   },
   {
     timestamps: {
