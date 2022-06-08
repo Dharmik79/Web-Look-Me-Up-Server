@@ -3,13 +3,16 @@ module.exports = {
   MESSAGE: {
     // Authorization
     INCORRECT_PASSWORD: {
+      data:"password",
       message: "Your password is not correct",
     },
 
     EMAIL_NOT_EXISTS: {
+      data: "email",
       message: "Email does not exists",
     },
     EMAIL_ALREADY_EXISTS: {
+      data: "email",
       message: "Email already exists",
     },
 
@@ -40,8 +43,8 @@ module.exports = {
     ERROR_FETCH_DATA: {
       message: "Error while fetching data from database",
     },
-    CREATE_COMMENT:{
-      message:"Comment has been generated successfully."
-    }
+    CREATE_COMMENT: {
+      message: "Comment has been generated successfully.",
+    },
   },
 };
