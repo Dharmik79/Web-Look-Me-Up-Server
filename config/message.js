@@ -46,5 +46,8 @@ module.exports = {
     CREATE_COMMENT: {
       message: "Comment has been generated successfully.",
     },
+    UPDATE_USER:{
+      message:"Profile has been updated successfully."
+    }
   },
 };
