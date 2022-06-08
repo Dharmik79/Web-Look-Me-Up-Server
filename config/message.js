@@ -48,6 +48,9 @@ module.exports = {
     },
     UPDATE_USER:{
       message:"Profile has been updated successfully."
+    },
+    GET_USER:{
+      message:"Profile has been fetched successfully."
     }
   },
 };
