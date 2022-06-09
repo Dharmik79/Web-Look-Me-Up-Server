@@ -10,7 +10,7 @@ module.exports = {
       let user = req.user;
       let data = req.body;
       let result = await service.findOneAndUpdateDocument(
-        Post,
+        User,
         {
           _id: user._id,
         },
