@@ -60,4 +60,99 @@ module.exports = {
       return util.failureResponse(error, res);
     }
   },
+  suggestions: async (req, res) => {
+    try {
+      let user = req.user;
+      let { options } = req.body;
+
+      if (!options) {
+        options = {};
+      }
+      user.following = [...user.following, user._id];
+      let result = await service.getAllDocuments(
+        User,
+        {
+          _id: {
+            $nin: user.following,
+          },
+        },
+        options
+      );
+
+      return util.successResponse(result, res);
+    } catch (error) {
+      console.error(error);
+      return util.failureResponse(error, res);
+    }
+  },
+  friends: async (req, res) => {
+    try {
+      let user = req.user;
+      let { options } = req.body;
+
+      if (!options) {
+        options = {};
+      }
+      let result = await service.getAllDocuments(
+        User,
+        {
+          _id: {
+            $in: user.following,
+          },
+        },
+        options
+      );
+      return util.successResponse(result, res);
+    } catch (error) {
+      console.error(error);
+      return util.failureResponse(error, res);
+    }
+  },
+  followFriend: async (req, res) => {
+    try {
+      let user = req.user;
+      let body = req.body;
+      await service.findOneAndUpdateDocument(
+        User,
+        { _id: user._id },
+        { $addToSet: { following: body.followingId } },
+        { new: true }
+      );
+      await service.findOneAndUpdateDocument(
+        User,
+        { _id: body.followingId },
+        { $addToSet: { followers: user._id } },
+        { new: true }
+      );
+      return util.successResponse({}, res);
+    } catch (error) {
+      console.error(error);
+      return util.failureResponse(error, res);
+    }
+  },
+  followers: async (req, res) => {
+    try {
+      let user = req.user;
+      let { options } = req.body;
+
+      if (!options) {
+        options = {};
+      }
+      let result = await service.getAllDocuments(
+        User,
+        {
+          _id: {
+            $in: user.followers,
+          },
+        },
+
+        options
+      );
+
+      return util.successResponse(result, res);
+    } catch (error) {
+      console.error(error);
+      return util.failureResponse(error, res);
+    }
+  },
 };
