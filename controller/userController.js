@@ -87,12 +87,17 @@ module.exports = {
   },
   friends: async (req, res) => {
     try {
-      let user = req.user;
-      let { options } = req.body;
+      let {query, options } = req.body;
+      if (!query) {
+        query = {
+          _id: req.user._id,
+        };
+      }
 
       if (!options) {
         options = {};
       }
+      let user = await service.getSingleDocumentById(User,query);
       let result = await service.getAllDocuments(
         User,
         {
@@ -132,12 +137,17 @@ module.exports = {
   },
   followers: async (req, res) => {
     try {
-      let user = req.user;
-      let { options } = req.body;
+      let { query, options } = req.body;
+      if (!query) {
+        query = {
+          _id: req.user._id,
+        };
+      }
 
       if (!options) {
         options = {};
       }
+      let user = await service.getSingleDocumentById(User,query);
       let result = await service.getAllDocuments(
         User,
         {
