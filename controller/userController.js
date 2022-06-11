@@ -165,4 +165,26 @@ module.exports = {
       return util.failureResponse(error, res);
     }
   },
+  unFollowFriend: async (req, res) => {
+    try {
+      let user = req.user;
+      let body = req.body;
+      await service.findOneAndUpdateDocument(
+        User,
+        { _id: user._id },
+        { $pull: { following: body.followingId } },
+        { new: true }
+      );
+      await service.findOneAndUpdateDocument(
+        User,
+        { _id: body.followingId },
+        { $pull: { followers: user._id } },
+        { new: true }
+      );
+      return util.successResponse({}, res);
+    } catch (error) {
+      console.error(error);
+      return util.failureResponse(error, res);
+    }
+  },
 };
