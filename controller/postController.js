@@ -3,6 +3,7 @@ const _ = require("lodash");
 const { MESSAGE } = require("../config/message");
 const service = require("../utils/dbService");
 const Post = require("../model/posts");
+const User = require("../model/user");
 module.exports = {
   // add userId while adding the authentication  middleware
   create: async (req, res) => {
@@ -23,7 +24,15 @@ module.exports = {
     try {
       let { query, options } = req.body;
       if (!query) {
-        query = {};
+        let following=req.user.following
+        let userData=await User.distinct("_id",{accountType:"public"})
+        following=[req.user._id,...following,...userData]
+      
+        query = {
+          userId:{
+            $in:following
+          }
+        };
       }
       if (!options) {
         options = {};
