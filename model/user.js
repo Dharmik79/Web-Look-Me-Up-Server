@@ -47,6 +47,10 @@ const schema = new Schema(
     },
     followers: [String],
     following: [String],
+    accountType: {
+      type: String,
+      default: "public",
+    },
   },
   {
     timestamps: {
