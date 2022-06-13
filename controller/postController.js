@@ -24,14 +24,14 @@ module.exports = {
     try {
       let { query, options } = req.body;
       if (!query) {
-        let following=req.user.following
-        let userData=await User.distinct("_id",{accountType:"public"})
-        following=[req.user._id,...following,...userData]
-      
+        let following = req.user.following;
+        let userData = await User.distinct("_id", { accountType: "public" });
+        following = [req.user._id, ...following, ...userData];
+
         query = {
-          userId:{
-            $in:following
-          }
+          userId: {
+            $in: following,
+          },
         };
       }
       if (!options) {
@@ -98,7 +98,7 @@ module.exports = {
       let id = req.body.postId;
       let userId = req.user._id;
       let actionType = req.body.action;
-      if (actionType) {
+      if (actionType === 0) {
         await service.findOneAndUpdateDocument(
           Post,
           { _id: id },
@@ -109,7 +109,7 @@ module.exports = {
             },
           }
         );
-      } else {
+      } else if (actionType === 1) {
         await service.findOneAndUpdateDocument(
           Post,
           { _id: id },
@@ -118,6 +118,28 @@ module.exports = {
             $pull: {
               likes: userId,
             },
+          }
+        );
+      }
+      // if like then only dislike and does not increment dislike
+      else if (actionType === 3) {
+        await service.findOneAndUpdateDocument(
+          Post,
+          { _id: id },
+          {
+            $pull: {
+              likes: userId,
+            },
+          }
+        );
+      }
+      // if already dislikes then only dislikes and does not increase like
+      else if (actionType === 4) {
+        await service.findOneAndUpdateDocument(
+          Post,
+          { _id: id },
+          {
+            $pull: { dislikes: userId },
           }
         );
       }
