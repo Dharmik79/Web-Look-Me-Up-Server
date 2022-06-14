@@ -94,6 +94,13 @@ module.exports = {
         };
       }
 
+      let searchValue=""
+      if(query.searchValue)
+      {
+        searchValue=query.searchValue
+        delete query.searchValue
+      }
+
       if (!options) {
         options = {};
       }
@@ -104,6 +111,10 @@ module.exports = {
           _id: {
             $in: user.following,
           },
+          fullName:{
+            $regex:searchValue,
+            $options:"i"
+          }
         },
         options
       );
