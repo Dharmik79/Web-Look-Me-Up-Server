@@ -23,16 +23,24 @@ module.exports = {
   findAll: async (req, res) => {
     try {
       let { query, options } = req.body;
-      if (!query) {
-        let following = req.user.following;
-        let userData = await User.distinct("_id", { accountType: "public" });
-        following = [req.user._id, ...following, ...userData];
+      let following = req.user.following;
+      let userData = await User.distinct("_id", { accountType: "public" });
+      following = [req.user._id, ...following, ...userData];
 
+      if (!query) {
+       
         query = {
           userId: {
             $in: following,
           },
         };
+      }
+      if(query.showPosts)
+      {
+        query.userId={
+          $in: following,
+        }
+        delete query.showPosts
       }
       if (!options) {
         options = {};
