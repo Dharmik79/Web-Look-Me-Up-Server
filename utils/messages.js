@@ -18,8 +18,9 @@ exports.updateProfileResponse = (data, res) => {
 };
 exports.failureResponse = (data, res) => {
   return res.status(responseStatusCode.validationError).json({
+    DATA:data.data,
     STATUS: "FAILURE",
-    MESSAGE: data.message ? data.message : data,
+    MESSAGE: data.message
   });
 };
 
@@ -50,7 +51,8 @@ exports.loginSuccess = (result, res) => {
 exports.loginFailed = (error, res) => {
   return res.status(responseStatusCode.validationError).json({
     STATUS: "FAILURE",
-    MESSAGE: error.message
+    MESSAGE: error.message,
+    DATA:error.data
   });
 };
 

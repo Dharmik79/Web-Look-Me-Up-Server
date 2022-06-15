@@ -3,6 +3,7 @@ const _ = require("lodash");
 const { MESSAGE } = require("../config/message");
 const service = require("../utils/dbService");
 const Post = require("../model/posts");
+const User = require("../model/user");
 module.exports = {
   // add userId while adding the authentication  middleware
   create: async (req, res) => {
@@ -22,8 +23,24 @@ module.exports = {
   findAll: async (req, res) => {
     try {
       let { query, options } = req.body;
+      let following = req.user.following;
+      let userData = await User.distinct("_id", { accountType: "public" });
+      following = [req.user._id, ...following, ...userData];
+
       if (!query) {
-        query = {};
+       
+        query = {
+          userId: {
+            $in: following,
+          },
+        };
+      }
+      if(query.showPosts)
+      {
+        query.userId={
+          $in: following,
+        }
+        delete query.showPosts
       }
       if (!options) {
         options = {};
@@ -89,7 +106,7 @@ module.exports = {
       let id = req.body.postId;
       let userId = req.user._id;
       let actionType = req.body.action;
-      if (actionType) {
+      if (actionType === 0) {
         await service.findOneAndUpdateDocument(
           Post,
           { _id: id },
@@ -100,7 +117,7 @@ module.exports = {
             },
           }
         );
-      } else {
+      } else if (actionType === 1) {
         await service.findOneAndUpdateDocument(
           Post,
           { _id: id },
@@ -109,6 +126,28 @@ module.exports = {
             $pull: {
               likes: userId,
             },
+          }
+        );
+      }
+      // if like then only dislike and does not increment dislike
+      else if (actionType === 3) {
+        await service.findOneAndUpdateDocument(
+          Post,
+          { _id: id },
+          {
+            $pull: {
+              likes: userId,
+            },
+          }
+        );
+      }
+      // if already dislikes then only dislikes and does not increase like
+      else if (actionType === 4) {
+        await service.findOneAndUpdateDocument(
+          Post,
+          { _id: id },
+          {
+            $pull: { dislikes: userId },
           }
         );
       }

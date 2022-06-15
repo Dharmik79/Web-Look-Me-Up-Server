@@ -32,7 +32,7 @@ module.exports = {
           return false;
         }
       } else {
-        throw MESSAGE.EMAIL_NOT_EXISTS.message;
+        throw MESSAGE.EMAIL_NOT_EXISTS;
       }
     } catch (error) {
       console.error(error);
@@ -44,7 +44,7 @@ module.exports = {
       body.email = body.email.toLowerCase();
       const user = await service.findUser(body.email);
       if (user) {
-        throw MESSAGE.EMAIL_ALREADY_EXISTS.message;
+        throw MESSAGE.EMAIL_ALREADY_EXISTS;
       }
       let result = await service.createDocument(User, body);
       result=result.toJSON();
